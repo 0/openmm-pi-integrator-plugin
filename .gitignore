@@ -1,0 +1,13 @@
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+*.dylib
+*.so
+
+/python/build/
+/python/PiIntegratorPlugin.py
+/python/PiIntegratorPluginWrapper.cpp
+/python/setup.py
