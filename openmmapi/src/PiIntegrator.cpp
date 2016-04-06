@@ -9,7 +9,8 @@
 using namespace PiIntegratorPlugin;
 
 
-PiIntegrator::PiIntegrator(double stepSize) {
+PiIntegrator::PiIntegrator(double stepSize, double beta, int numBeads, double centroidFriction) :
+		beta(beta), numBeads(numBeads), centroidFriction(centroidFriction) {
 	setStepSize(stepSize);
 }
 
@@ -30,6 +31,10 @@ void PiIntegrator::initialize(ContextImpl& contextRef) {
 
 	if (contextRef.getSystem().getNumConstraints() > 0) {
 		throw OpenMMException("PiIntegrator cannot be used with Systems that include constraints");
+	}
+
+	if (contextRef.getSystem().getNumParticles() % numBeads != 0) {
+		throw OpenMMException("PiIntegrator requires the same number of beads for each particle");
 	}
 
 	context = &contextRef;

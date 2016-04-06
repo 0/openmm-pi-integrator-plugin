@@ -12,11 +12,31 @@
 %}
 
 
+%pythoncode %{
+import simtk.unit as unit
+%}
+
+%pythonappend PiIntegratorPlugin::PiIntegrator::getBeta() const %{
+    val = unit.Quantity(val, 1/unit.kilojoule_per_mole)
+%}
+
+%pythonappend PiIntegratorPlugin::PiIntegrator::getCentroidFriction() const %{
+    val = unit.Quantity(val, 1/unit.picosecond)
+%}
+
+
 namespace PiIntegratorPlugin {
 
 class PiIntegrator : public OpenMM::Integrator {
 public:
-    PiIntegrator(double stepSize);
+    PiIntegrator(double stepSize, double beta, int numBeads, double centroidFriction);
+
+    double getBeta() const;
+
+    int getNumBeads() const;
+
+    int getCentroidFriction() const;
+
     void step(int steps);
 };
 
